@@ -57,7 +57,8 @@ a { text-underline-offset:3px; }
 .manuscript-entry p { margin:.4rem 0; }
 .cv-intro { display:flex; gap:1rem; justify-content:space-between; align-items:center; }
 .cv-intro p { margin:0; font-size:.85rem; }
-.print-cv { border:1px solid #d6dfe7; color:#175f91; background:#fff; padding:.45rem .65rem; border-radius:4px; font-size:.75rem; cursor:pointer; }
+.print-cv { display:inline-block; flex-shrink:0; white-space:nowrap; text-decoration:none; border:1px solid #d6dfe7; color:#175f91; background:#fff; padding:.45rem .65rem; border-radius:4px; font-size:.75rem; cursor:pointer; }
+.cv-contact { font-size:.85rem; margin-top:.6rem; }
 .cv-experience .entry-top h2 { font-size:1rem; }
 .page__meta { display:none; }
 .page__footer { background:#f8f9fa; border-top:1px solid #e6eaee; margin-top:3rem; }

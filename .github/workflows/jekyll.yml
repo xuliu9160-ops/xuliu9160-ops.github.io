@@ -20,6 +20,16 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
       - uses: actions/configure-pages@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate academic CV PDF
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y fonts-liberation
+          python -m pip install reportlab==4.4.9
+          ruby scripts/export_cv_data.rb > /tmp/jiaxu-cv-data.json
+          python scripts/build_cv.py --data-json /tmp/jiaxu-cv-data.json --output files/Jiaxu_Liu_CV.pdf
       - run: bundle exec jekyll build
         env:
           JEKYLL_ENV: production
