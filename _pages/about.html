@@ -1,0 +1,14 @@
+---
+permalink: /
+title: About
+---
+<p class="intro">I am a third-year undergraduate student at <strong>Wenzhou-Kean University</strong>, studying Mathematical Sciences with a Data Analytics option and expecting to graduate in 2028.</p>
+<p>My research interests include <strong>continual learning</strong>, <strong>deep learning</strong>, and <strong>AI for healthcare</strong>. I am particularly interested in how medical AI models can adapt to new information and changing diagnostic definitions while retaining previously learned capabilities.</p>
+<p>Since February 2026, I have been an Undergraduate Research Assistant in the <strong>AI4Healthcare Lab at Kean University</strong>, advised by <a href="https://kuanhuang0624.github.io/">Prof. Kuan Huang</a>. Previously, I was a visiting student in Prof. Lin Yang’s research group at Westlake University, working with Yu Bai on enzyme activity prediction and computational pathology.</p>
+<div class="interest-list" aria-label="Research interests">{% for interest in site.data.profile.interests %}<span>{{ interest }}</span>{% endfor %}</div>
+<h2>Education</h2>
+{% include profile-education.html %}
+<div class="section-heading"><h2>Selected Publication</h2><a href="{{ '/publications/' | relative_url }}">All research outputs <span aria-hidden="true">→</span></a></div>
+{% include profile-papers.html %}
+<h2>Honors &amp; Awards</h2>
+<p><strong>{{ site.data.profile.award.name }}</strong><br>{{ site.data.profile.award.institution }} · {{ site.data.profile.award.dates }}</p>

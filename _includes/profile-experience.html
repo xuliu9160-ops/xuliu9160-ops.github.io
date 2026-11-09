@@ -1,0 +1,8 @@
+{% for item in site.data.profile.experience %}
+<section class="experience-entry">
+  <div class="entry-top"><h2>{{ item.role }}</h2><span class="entry-date">{{ item.dates }}</span></div>
+  <p class="entry-institution">{{ item.institution }}{% if item.group != '' %} · {{ item.group }}{% endif %}</p>
+  <p class="entry-meta">{{ item.advisor }}</p>
+  <ul>{% for bullet in item.bullets %}<li>{{ bullet }}</li>{% endfor %}</ul>
+</section>
+{% endfor %}

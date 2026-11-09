@@ -1,0 +1,17 @@
+---
+permalink: /cv/
+title: Curriculum Vitae
+---
+<div class="cv-intro"><p>Jiaxu Liu · <a href="mailto:liujiax@kean.edu">liujiax@kean.edu</a></p><button type="button" class="print-cv" onclick="window.print()">Print / Save as PDF</button></div>
+<h2>Education</h2>
+{% include profile-education.html %}
+<h2>Research Interests</h2>
+<p>{{ site.data.profile.interests | join: ' · ' }}</p>
+<h2>Research Experience</h2>
+<div class="cv-experience">{% include profile-experience.html %}</div>
+<h2>Accepted Papers</h2>
+{% include profile-papers.html compact=true %}
+<h2>Manuscripts</h2>
+{% include profile-manuscripts.html %}
+<h2>Honors &amp; Awards</h2>
+<p><strong>{{ site.data.profile.award.name }}</strong><br>{{ site.data.profile.award.institution }} · {{ site.data.profile.award.dates }}</p>

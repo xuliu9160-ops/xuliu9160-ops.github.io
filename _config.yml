@@ -1,0 +1,45 @@
+locale: en-US
+site_theme: default
+title: Jiaxu Liu
+title_separator: "|"
+name: Jiaxu Liu
+description: "Jiaxu Liu — undergraduate researcher in continual learning, deep learning, and AI for healthcare."
+url: https://xuliu9160-ops.github.io
+baseurl: ""
+repository: xuliu9160-ops/xuliu9160-ops.github.io
+author:
+  name: Jiaxu Liu
+  avatar: portrait.jpg
+  bio: "Undergraduate Researcher"
+  employer: Wenzhou-Kean University
+  email: liujiax@kean.edu
+  github: xuliu9160-ops
+breadcrumbs: false
+future: false
+read_more: disabled
+atom_feed:
+  hide: true
+comments:
+  provider: false
+analytics:
+  provider: false
+include: [_pages, files]
+exclude: [Gemfile, Gemfile.lock, README.txt, LICENSE, UPSTREAM.txt, AGENTS.md, vendor, node_modules, work, preview, scripts, .github, .bundle, package.json, package-lock.json]
+encoding: utf-8
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  hard_wrap: false
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+sass:
+  sass_dir: _sass
+  style: compressed
+timezone: America/New_York
+plugins: []

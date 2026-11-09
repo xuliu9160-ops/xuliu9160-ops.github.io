@@ -1,0 +1,6 @@
+{% assign e = site.data.profile.education %}
+<div class="education-entry">
+  <h3>{{ e.institution }}</h3>
+  <p>{{ e.degree }}<br>{{ e.major }}</p>
+  <p class="entry-meta">{{ e.dates }}<span class="meta-divider"> · </span>GPA: {{ e.gpa }}</p>
+</div>

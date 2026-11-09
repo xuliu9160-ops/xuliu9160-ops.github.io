@@ -1,0 +1,6 @@
+{% for paper in site.data.papers.manuscripts %}
+<section class="manuscript-entry">
+  <h3>{{ paper.title }}</h3>
+  <p class="entry-meta">Completed manuscript · {{ paper.status }}</p>
+</section>
+{% endfor %}

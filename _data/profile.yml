@@ -1,0 +1,42 @@
+name: Jiaxu Liu
+name_zh: 刘家旭
+email: liujiax@kean.edu
+github: xuliu9160-ops
+interests:
+  - Continual Learning
+  - Deep Learning
+  - AI for Healthcare
+education:
+  institution: Wenzhou-Kean University
+  degree: Bachelor of Arts
+  major: "Mathematical Sciences: Data Analytics Option"
+  dates: September 2024–2028 (expected)
+  gpa: "3.855"
+award:
+  name: "Dean’s Scholarship, Second Class"
+  institution: Wenzhou-Kean University
+  dates: Academic Year 2025–2026
+experience:
+  - role: Undergraduate Research Assistant
+    institution: Kean University
+    group: AI4Healthcare Lab
+    dates: February 2026–Present
+    advisor: "Advisor: Prof. Kuan Huang"
+    bullets:
+      - "Conduct research on medical image and video analysis, including breast ultrasound video classification and adaptation of medical imaging models."
+      - "Research outputs include a first-author paper accepted at BIBM 2026 and two completed manuscripts being prepared for submission."
+  - role: Visiting Student
+    institution: Westlake University
+    group: Research group of Prof. Lin Yang
+    dates: May 25–August 25, 2026
+    advisor: "Mentor: Yu Bai"
+    bullets:
+      - "Investigated ordinal modeling for enzyme turnover rate (kcat) prediction, including ordered discretization of log-scale targets, training objectives, simulation experiments, and comparative evaluation."
+      - "Curated whole-slide pathology data for downstream segmentation through slide–annotation matching, quality checks, patch extraction, label generation, and aggregation of cell detection and spatial analysis results."
+  - role: Research Intern (Remote)
+    institution: Southeast University
+    group: ""
+    dates: August–November 2025
+    advisor: "Supervisor: Wenjun Ke"
+    bullets:
+      - "Undertook introductory study of large language models and chain-of-thought reasoning under supervision."

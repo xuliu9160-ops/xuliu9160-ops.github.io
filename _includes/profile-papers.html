@@ -1,0 +1,9 @@
+{% for paper in site.data.papers.accepted %}
+<section class="paper-entry" id="bibm-2026">
+  <h3>{{ paper.title }}</h3>
+  <p class="paper-authors">{{ paper.authors }}</p>
+  <p class="paper-venue">{{ paper.venue }} <span class="status">{{ paper.status }}</span></p>
+  {% unless include.compact %}<p class="paper-summary">{{ paper.summary }}</p>{% endunless %}
+  <p class="paper-links"><a href="{{ paper.manuscript | relative_url }}">Manuscript PDF <span aria-hidden="true">↗</span></a><a href="{{ paper.code }}">Code <span aria-hidden="true">↗</span></a></p>
+</section>
+{% endfor %}

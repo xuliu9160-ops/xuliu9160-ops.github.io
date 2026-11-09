@@ -1,0 +1,13 @@
+accepted:
+  - title: "Adaptive Context-Guided Segment Aggregation with Low-Drop Consistency for Breast Ultrasound Video Classification"
+    authors: "<strong>Jiaxu Liu</strong>, Yitian Ni, Meng Xu, Kuan Huang"
+    venue: BIBM 2026
+    status: Accepted
+    summary: "Context-guided segment aggregation and low-drop consistency for breast ultrasound video classification."
+    code: https://github.com/xuliu9160-ops/ACG-SPC
+    manuscript: /files/bibm-2026-manuscript.pdf
+manuscripts:
+  - title: "Selecting Updates for a Unified Radiograph and CT Model: Retention and External Consequences"
+    status: Preparing for submission
+  - title: "History Tells Where, Not What: Minimal Revision of Deployed Classifiers When Diagnostic Definitions Change"
+    status: Preparing for submission
