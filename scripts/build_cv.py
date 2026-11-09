@@ -35,7 +35,7 @@ for font_name, suffix in [('CVSerif','Regular'), ('CVSerif-Bold','Bold'), ('CVSe
 pdfmetrics.registerFontFamily('CVSerif',normal='CVSerif',bold='CVSerif-Bold',italic='CVSerif-Italic',boldItalic='CVSerif-BoldItalic')
 
 def txt(s):
-    return escape(str(s))
+    return escape(str(s).replace('\u2013', '-').replace('\u2014', '-').replace('\u2011', '-'))
 
 def authors(s):
     s = re.sub(r'</?strong>', lambda m: '<b>' if m.group() == '<strong>' else '</b>', s)
