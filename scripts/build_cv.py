@@ -12,7 +12,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, HRFlowable, Image
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, HRFlowable, Image, PageBreak
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data-json', required=True)
@@ -45,27 +45,29 @@ ink = colors.HexColor('#171b20')
 muted = colors.HexColor('#48505a')
 link_color = '#235577'
 styles = {
-    'name': ParagraphStyle('name', fontName='CVSerif-Bold', fontSize=23, leading=26, alignment=TA_LEFT, textColor=ink, spaceAfter=4),
-    'contact': ParagraphStyle('contact', fontName='Times-Roman', fontSize=9.5, leading=12, alignment=TA_LEFT, textColor=muted),
-    'heading': ParagraphStyle('heading', fontName='Times-Bold', fontSize=11, leading=13, textColor=ink, spaceBefore=10, spaceAfter=3, keepWithNext=True),
-    'body': ParagraphStyle('body', fontName='Times-Roman', fontSize=10.2, leading=12.7, textColor=ink, spaceAfter=2),
-    'small': ParagraphStyle('small', fontName='Times-Roman', fontSize=9.5, leading=11.5, textColor=muted, spaceAfter=2),
-    'date': ParagraphStyle('date', fontName='Times-Roman', fontSize=9.5, leading=12.7, alignment=TA_RIGHT, textColor=muted),
-    'bullet': ParagraphStyle('bullet', fontName='Times-Roman', fontSize=10.2, leading=12.7, textColor=ink, leftIndent=10, firstLineIndent=-7, spaceAfter=2),
+    'name': ParagraphStyle('name', fontName='CVSerif-Bold', fontSize=25, leading=29, alignment=TA_LEFT, textColor=ink, spaceAfter=6),
+    'contact': ParagraphStyle('contact', fontName='Times-Roman', fontSize=10.5, leading=14, alignment=TA_LEFT, textColor=muted),
+    'heading': ParagraphStyle('heading', fontName='Times-Bold', fontSize=12, leading=15, textColor=ink, spaceBefore=17, spaceAfter=5, keepWithNext=True),
+    'body': ParagraphStyle('body', fontName='Times-Roman', fontSize=11.5, leading=15.5, textColor=ink, spaceAfter=4),
+    'small': ParagraphStyle('small', fontName='Times-Roman', fontSize=10.5, leading=14, textColor=muted, spaceAfter=4),
+    'date': ParagraphStyle('date', fontName='Times-Roman', fontSize=10.5, leading=15.5, alignment=TA_RIGHT, textColor=muted),
+    'bullet': ParagraphStyle('bullet', fontName='Times-Roman', fontSize=11.5, leading=15.5, textColor=ink, leftIndent=12, firstLineIndent=-8, spaceAfter=5),
 }
 for style in styles.values():
     style.fontName = style.fontName.replace('Times-Roman','CVSerif').replace('Times-Bold','CVSerif-Bold')
 def para(s, style='body'):
     return Paragraph(s, styles[style])
 
-margin = 43
+margin = 48
 width = A4[0] - 2 * margin - 12  # Account for the document frame's inner padding.
 story = []
 def section(title):
-    story.extend([para(title.upper(), 'heading'), HRFlowable(width='100%', thickness=.45, color=colors.HexColor('#a7afb7'), spaceAfter=5)])
+    rule = HRFlowable(width='100%', thickness=.45, color=colors.HexColor('#a7afb7'), spaceAfter=8)
+    rule.keepWithNext = True
+    story.extend([para(title.upper(), 'heading'), rule])
 
 def row(left, right):
-    t = Table([[para(left), para(txt(right), 'date')]], colWidths=[width-164,164])
+    t = Table([[para(left), para(txt(right), 'date')]], colWidths=[width-185,185])
     t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0),('TOPPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),0)]))
     return t
 
@@ -76,8 +78,8 @@ header_text = [
     para(f'<link href="https://github.com/{p["github"]}" color="{link_color}">GitHub: {p["github"]}</link>', 'contact'),
 ]
 portrait_path = Path(__file__).resolve().parents[1] / 'images' / 'portrait.jpg'
-portrait = Image(str(portrait_path), width=76, height=76, kind='proportional')
-header = Table([[header_text, portrait]], colWidths=[width-90,90])
+portrait = Image(str(portrait_path), width=84, height=84, kind='proportional')
+header = Table([[header_text, portrait]], colWidths=[width-98,98])
 header.setStyle(TableStyle([
     ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
     ('ALIGN',(1,0),(1,0),'RIGHT'),
@@ -97,6 +99,20 @@ story.append(para(f'GPA: {txt(e["gpa"])}'))
 section('Research Interests')
 story.append(para(' · '.join(txt(x) for x in p['interests'])))
 
+section('Accepted Publications')
+for paper in papers['accepted']:
+    group = [para('<b>'+txt(paper['title'])+'</b>'), para(authors(paper['authors']))]
+    group.append(para(f'<i>{txt(paper["venue"])}</i> ({txt(paper["status"])}).  <link href="https://{p["github"]}.github.io{paper["manuscript"]}" color="{link_color}">Paper</link> | <link href="{paper["code"]}" color="{link_color}">Code</link>', 'small'))
+    if paper.get('summary'):
+        group.append(para(txt(paper['summary'])))
+    story.append(KeepTogether(group))
+
+section('Manuscripts')
+for paper in papers['manuscripts']:
+    story.append(KeepTogether([para('<b>'+txt(paper['title'])+'</b>'), para(authors(paper['authors'])), para('Completed manuscript; '+txt(paper['status']).lower()+'.', 'small'), Spacer(1,10)]))
+
+# Start experience on a fresh page; let longer future content paginate naturally.
+story.append(PageBreak())
 section('Research Experience')
 for item in p['experience']:
     group = [row(f'<b>{txt(item["role"])}</b>', item['dates'])]
@@ -104,19 +120,11 @@ for item in p['experience']:
     if item['group']: institution += ' | ' + txt(item['group'])
     group.append(para(institution))
     group.append(para(txt(item['advisor']), 'small'))
-    group += [para('- '+txt(b), 'bullet') for b in item['bullets']]
-    group.append(Spacer(1,4))
-    story.append(KeepTogether(group))
-
-section('Accepted Publications')
-for paper in papers['accepted']:
-    group = [para('<b>'+txt(paper['title'])+'</b>'), para(authors(paper['authors']))]
-    group.append(para(f'<i>{txt(paper["venue"])}</i> ({txt(paper["status"])}).  <link href="https://{p["github"]}.github.io{paper["manuscript"]}" color="{link_color}">Paper</link> | <link href="{paper["code"]}" color="{link_color}">Code</link>', 'small'))
-    story.append(KeepTogether(group))
-
-section('Manuscripts')
-for paper in papers['manuscripts']:
-    story.append(KeepTogether([para('<b>'+txt(paper['title'])+'</b>'), para(authors(paper['authors'])), para('Completed manuscript; '+txt(paper['status']).lower()+'.', 'small'), Spacer(1,4)]))
+    for entry in group:
+        entry.keepWithNext = True
+    story.extend(group)
+    story.extend(para('- '+txt(b), 'bullet') for b in item.get('cv_bullets', item['bullets']))
+    story.append(Spacer(1,12))
 
 section('Honors and Awards')
 a = p['award']
@@ -127,10 +135,16 @@ def footer(canvas, doc):
     canvas.setTitle('Jiaxu Liu - Academic CV')
     canvas.setAuthor('Jiaxu Liu')
     canvas.setSubject('Education, research experience, publications, and honors')
-    canvas.setFont('CVSerif',8)
+    canvas.setFont('CVSerif',9)
     canvas.setFillColor(muted)
     canvas.drawCentredString(A4[0]/2,24,str(doc.page))
+    if doc.page > 1:
+        canvas.setFont('CVSerif',10)
+        canvas.drawString(margin+6,A4[1]-30,p['name'])
+        canvas.setStrokeColor(colors.HexColor('#a7afb7'))
+        canvas.setLineWidth(.4)
+        canvas.line(margin+6,A4[1]-36,A4[0]-margin-6,A4[1]-36)
 
-doc = SimpleDocTemplate(str(out),pagesize=A4,leftMargin=margin,rightMargin=margin,topMargin=35,bottomMargin=35)
+doc = SimpleDocTemplate(str(out),pagesize=A4,leftMargin=margin,rightMargin=margin,topMargin=48,bottomMargin=44)
 doc.build(story,onFirstPage=footer,onLaterPages=footer)
 print(out)

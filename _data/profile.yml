@@ -30,6 +30,11 @@ experience:
     group: Research group of Prof. Lin Yang
     dates: May 25–August 25, 2026
     advisor: "Mentor: Yu Bai"
+    cv_bullets:
+      - "Investigated ordinal modeling for enzyme turnover rate (kcat) prediction, including discretization of continuous log-scale targets into ordered intervals."
+      - "Explored training objectives for enzyme activity prediction across orders of magnitude; conducted simulation experiments, model comparisons, and analysis of activity levels and their ordering."
+      - "Curated whole-slide pathology datasets by matching SVS/SDPC slides with annotations, checking readability, extracting patches, and generating labels for downstream segmentation."
+      - "Organized cell detection results, generated heatmaps, and compiled statistical summaries and regional area measurements to support dataset preparation and project delivery."
     bullets:
       - "Investigated ordinal modeling for enzyme turnover rate (kcat) prediction, including ordered discretization of log-scale targets, training objectives, simulation experiments, and comparative evaluation."
       - "Curated whole-slide pathology data for downstream segmentation through slide–annotation matching, quality checks, patch extraction, label generation, and aggregation of cell detection and spatial analysis results."
