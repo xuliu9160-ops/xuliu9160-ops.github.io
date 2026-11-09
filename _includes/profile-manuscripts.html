@@ -1,6 +1,7 @@
 {% for paper in site.data.papers.manuscripts %}
 <section class="manuscript-entry">
   <h3>{{ paper.title }}</h3>
+  {% if paper.authors %}<p class="paper-authors">{{ paper.authors }}</p>{% endif %}
   <p class="entry-meta">Completed manuscript · {{ paper.status }}</p>
 </section>
 {% endfor %}
