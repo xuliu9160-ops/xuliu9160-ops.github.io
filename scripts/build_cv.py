@@ -7,12 +7,12 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_RIGHT
+from reportlab.lib.enums import TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, HRFlowable
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, HRFlowable, Image
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data-json', required=True)
@@ -45,8 +45,8 @@ ink = colors.HexColor('#171b20')
 muted = colors.HexColor('#48505a')
 link_color = '#235577'
 styles = {
-    'name': ParagraphStyle('name', fontName='CVSerif-Bold', fontSize=23, leading=26, alignment=TA_CENTER, textColor=ink, spaceAfter=4),
-    'contact': ParagraphStyle('contact', fontName='Times-Roman', fontSize=9.5, leading=12, alignment=TA_CENTER, textColor=muted),
+    'name': ParagraphStyle('name', fontName='CVSerif-Bold', fontSize=23, leading=26, alignment=TA_LEFT, textColor=ink, spaceAfter=4),
+    'contact': ParagraphStyle('contact', fontName='Times-Roman', fontSize=9.5, leading=12, alignment=TA_LEFT, textColor=muted),
     'heading': ParagraphStyle('heading', fontName='Times-Bold', fontSize=11, leading=13, textColor=ink, spaceBefore=10, spaceAfter=3, keepWithNext=True),
     'body': ParagraphStyle('body', fontName='Times-Roman', fontSize=10.2, leading=12.7, textColor=ink, spaceAfter=2),
     'small': ParagraphStyle('small', fontName='Times-Roman', fontSize=9.5, leading=11.5, textColor=muted, spaceAfter=2),
@@ -69,9 +69,24 @@ def row(left, right):
     t.setStyle(TableStyle([('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),0),('RIGHTPADDING',(0,0),(-1,-1),0),('TOPPADDING',(0,0),(-1,-1),0),('BOTTOMPADDING',(0,0),(-1,-1),0)]))
     return t
 
-story.append(para(txt(p['name']), 'name'))
-story.append(para('Undergraduate Researcher | Wenzhou-Kean University', 'contact'))
-story.append(para(f'<link href="mailto:{p["email"]}" color="{link_color}">{txt(p["email"])}</link>  |  <link href="https://{p["github"]}.github.io/" color="{link_color}">{p["github"]}.github.io</link>  |  <link href="https://github.com/{p["github"]}" color="{link_color}">GitHub: {p["github"]}</link>', 'contact'))
+header_text = [
+    para(txt(p['name']), 'name'),
+    para('Undergraduate Researcher | Wenzhou-Kean University', 'contact'),
+    para(f'<link href="mailto:{p["email"]}" color="{link_color}">{txt(p["email"])}</link>  |  <link href="https://{p["github"]}.github.io/" color="{link_color}">{p["github"]}.github.io</link>', 'contact'),
+    para(f'<link href="https://github.com/{p["github"]}" color="{link_color}">GitHub: {p["github"]}</link>', 'contact'),
+]
+portrait_path = Path(__file__).resolve().parents[1] / 'images' / 'portrait.jpg'
+portrait = Image(str(portrait_path), width=76, height=76, kind='proportional')
+header = Table([[header_text, portrait]], colWidths=[width-90,90])
+header.setStyle(TableStyle([
+    ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
+    ('ALIGN',(1,0),(1,0),'RIGHT'),
+    ('LEFTPADDING',(0,0),(-1,-1),0),
+    ('RIGHTPADDING',(0,0),(-1,-1),0),
+    ('TOPPADDING',(0,0),(-1,-1),0),
+    ('BOTTOMPADDING',(0,0),(-1,-1),0),
+]))
+story.append(header)
 
 section('Education')
 e = p['education']
